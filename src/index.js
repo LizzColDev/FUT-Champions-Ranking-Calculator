@@ -139,12 +139,10 @@ btnRefreshs.addEventListener("click", function (){
 const showRangeWin = () =>{
     let arrRange = [];
     ranges.filter(range => {
-        console.log('ranges en show parra', range)
         if(range.ptoMin<=currentTotal){
             let nameRange = document.createElement('h3')
             nameRange.innerText = `Alcanzaste el rango ${range.range}`
             arrRange.push(nameRange)
-            console.log(arrRange, 'no se donde estoy')
             containGames.insertAdjacentElement('afterbegin', arrRange[0])
     }
 }
@@ -153,14 +151,16 @@ const messGame = ()=> {
     deleteNode()
     btnWin.setAttribute("disabled", "disabled")
     btnLoose.setAttribute("disabled", "disabled")
+    console.log(ranges, 'ranges messgame')
+    if(ranges.partWin <= 0){
+        console.log(ranges, 'dentro del if ranges')
+    }
     ranges.reduce(range =>{
-        range.partWin
-        console.log(range, 'ranges en messgame')
 
             containerRange = document.createElement('div')
             containerRange.className="contain-message"
             let message = document.createElement('p')
-            if(gamesLoose === 0 ){
+            if(currentTotal <= range.ptoMin ){
                 message.innerText = `Ganaste ${gamesWin} partidos, te ganaste el premio mayor.
                                         Felicitaciones!`
                 message.className = 'messageWinRange'
@@ -188,6 +188,5 @@ const messGame = ()=> {
 const deleteNode =() => {
 
 const allContainer = document.querySelectorAll(".contain-message");
-console.log(allContainer)
 allContainer.forEach(message => {containGames.removeChild(message)})
 }
