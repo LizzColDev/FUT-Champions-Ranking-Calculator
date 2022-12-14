@@ -51,11 +51,9 @@ let ranges = [
 ];
 
 let games = 10;
-let currentPoint =0;
 let currentTotal = 0;
 let gamesLoose = 0;
 let gamesWin = 0;
-let containNodes = []
 
 btnWin.addEventListener('click', ()=>{
     if(games>0){
