@@ -4,7 +4,6 @@ const btnRefreshs =document.querySelector('.btnRefreshs')
 const spanPoints = document.querySelector('#value')
 const containGames = document.querySelector('#containGames')
 
-
 let ranges = [
     {
         range: 1,
@@ -58,81 +57,29 @@ let gamesWin = 0;
 btnWin.addEventListener('click', ()=>{
     if(games>0){
         currentTotal += 4
-        games -=1
         gamesWin +=1
-        spanPoints.innerText = currentTotal
-        deleteNode()
-            ranges.forEach(range =>{
-                let containerRange = document.createElement('div')
-                let nameRange = document.createElement('h3')
-                let message = document.createElement('p')
-                containerRange.className="contain-message"
-                range.partWin -=1
-                nameRange.innerText = `Rango ${range.range}`
-
-                    if(gamesLoose > range.gameForLoose ){
-                        message.innerText = `Ya perdiste ${gamesLoose} partidos, no tienes opciones de llegar a este rango`
-                        message.className = 'messageLooseRange'
-                    }
-                    else if(currentTotal>=range.ptoMin){
-                        message.innerText = `Alcanzaste este rango, felicitaciones`
-                        message.className = 'messageWinRange'
-                    } 
-                    else{
-                        message.innerText = `Tienes ${currentTotal} puntos, te quedan ${games} partidos por jugar y debes ganar ${range.partWin} partidos mas para llegar a este rango`
-                    }         
-                    containerRange.append(nameRange, message)
-                    containGames.append(containerRange)   
-    })
+        printMessage()
+        ranges.forEach(range => range.partWin -=1)
     }
     else{
-        
         alert('No hay mas partidos disponibles para jugar')
         messGame()
     }    
-    })
-
+})
 
 btnLoose.addEventListener('click', ()=>{
     if(games>0){
         currentTotal += 1
-        games -=1
         gamesLoose +=1
-        spanPoints.innerText = currentTotal
-        deleteNode()
-            ranges.forEach(range =>{
-
-                containerRange = document.createElement('div')
-                containerRange.className="contain-message"
-                let nameRange = document.createElement('h3')
-                let message = document.createElement('p')
-                // range.partWin -=1
-                    nameRange.innerText = `Rango ${range.range}`
-                    if(gamesLoose > range.gameForLoose ){
-                        message.innerText = `Ya perdiste ${gamesLoose} partidos, no tienes opciones de llegar a este rango`
-                        message.className = 'messageLooseRange'
-                    }
-                    else if(currentTotal>=range.ptoMin){
-                        message.innerText = `Alcanzaste este rango, felicitaciones`
-                        message.className = 'messageWinRange'
-                    } 
-                    else{
-                        message.innerText = `Tienes ${currentTotal} puntos, te quedan ${games} partidos por jugar y debes ganar ${range.partWin} partidos mas para llegar a este rango`
-                    }            
-                    containerRange.append(nameRange, message)
-                    containGames.append(containerRange)  
-    })
+        printMessage()
     }
     else{
         alert('No hay mas partidos disponibles para jugar')
         messGame()
-
     }    
 })
 
-btnRefreshs.addEventListener("click", function (){
-    location.reload();
-})
+btnRefreshs.addEventListener("click", () => location.reload());
 
 const showRangeWin = () =>{
     let arrRange = [];
@@ -144,9 +91,10 @@ const showRangeWin = () =>{
             containGames.insertAdjacentElement('afterbegin', arrRange[0])
     }
 }
-    )}
+)}
+
 const messGame = ()=> {
-    deleteNode()
+    containGames.innerText = ""
     btnWin.setAttribute("disabled", "disabled")
     btnLoose.setAttribute("disabled", "disabled")
     console.log(ranges, 'ranges messgame')
@@ -176,15 +124,31 @@ const messGame = ()=> {
 
             showRangeWin()
             containGames.append(containerRange)  
-
     })
-    console.log(currentTotal, 'currentTotal en el else')
-
 }
 
-
-const deleteNode =() => {
-
-const allContainer = document.querySelectorAll(".contain-message");
-allContainer.forEach(message => {containGames.removeChild(message)})
+function printMessage(){
+    games -=1
+    spanPoints.innerText = currentTotal
+    containGames.innerText = ""
+    ranges.forEach(range =>{
+        let containerRange = document.createElement('div')
+        containerRange.className="contain-message"
+        let nameRange = document.createElement('h3')
+        let message = document.createElement('p')
+        nameRange.innerText = `Rango ${range.range}`
+        if(gamesLoose > range.gameForLoose ){
+            message.innerText = `Ya perdiste ${gamesLoose} partidos, no tienes opciones de llegar a este rango`
+            message.className = 'messageLooseRange'
+        }
+        else if(currentTotal>=range.ptoMin){
+            message.innerText = `Alcanzaste este rango, felicitaciones`
+            message.className = 'messageWinRange'
+        } 
+        else{
+            message.innerText = `Tienes ${currentTotal} puntos, te quedan ${games} partidos por jugar y debes ganar ${range.partWin} partidos mas para llegar a este rango`
+        }            
+        containerRange.append(nameRange, message)
+        containGames.append(containerRange)  
+})
 }
